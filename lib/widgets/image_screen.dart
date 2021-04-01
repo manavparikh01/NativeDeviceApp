@@ -2,8 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as sypaths;
 
 class ImageScreen extends StatefulWidget {
+  final Function onSelectImage;
+
+  ImageScreen(this.onSelectImage);
+
   @override
   _ImageScreenState createState() => _ImageScreenState();
 }
@@ -12,12 +18,25 @@ class _ImageScreenState extends State<ImageScreen> {
   File _storedImage;
 
   Future<void> _takePicture() async {
-    final picker = ImagePicker();
-    final imageFile =
-        await picker.getImage(source: ImageSource.camera, maxWidth: 600);
+    // final picker = ImagePicker();
+    // final imageFile =
+    //     await picker.getImage(source: ImageSource.camera, maxWidth: 600);
+    final imageFile = await ImagePicker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
+    if (imageFile == null) {
+      return;
+    }
     setState(() {
-      _storedImage = File(imageFile.path);
+      //_storedImage = File(imageFile.path);
+      _storedImage = imageFile;
     });
+    final appDir = await sypaths.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imageFile.path);
+    var savedImage = await imageFile.copy('${appDir.path}/$fileName');
+    widget.onSelectImage(savedImage);
+    savedImage = null;
   }
 
   @override
