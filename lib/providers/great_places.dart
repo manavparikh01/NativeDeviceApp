@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 
@@ -13,6 +14,10 @@ class GreatPlaces with ChangeNotifier {
     return [..._items];
   }
 
+  //Uint8List picture;
+
+  //GreatPlaces(this.picture);
+
   void addPlace(String pickedTitle, File pickedImage) {
     final newPlace = Place(
       id: DateTime.now().toString(),
@@ -22,10 +27,12 @@ class GreatPlaces with ChangeNotifier {
     );
     _items.add(newPlace);
     notifyListeners();
+    //picture = newPlace.image as Uint8List;
     DBHelper.insert('user_places', {
       'id': newPlace.id,
       'title': newPlace.title,
-      'image': newPlace.image,
+      'image': newPlace.image.path,
+      //'image': picture,
     });
   }
 
@@ -36,6 +43,7 @@ class GreatPlaces with ChangeNotifier {
               id: item['id'],
               title: item['title'],
               image: File(item['image']),
+              //image: null,
               location: null,
             ))
         .toList();
