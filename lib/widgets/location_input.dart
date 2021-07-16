@@ -51,23 +51,27 @@ class _LocationInputState extends State<LocationInput> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              FlatButton.icon(
-                icon: Icon(
-                  Icons.location_on,
-                  size: 17,
+              Expanded(
+                child: FlatButton.icon(
+                  icon: Icon(
+                    Icons.location_on,
+                    size: 17,
+                  ),
+                  label: Text('Current Location'),
+                  textColor: Theme.of(context).primaryColor,
+                  onPressed: _getCurrentLocation,
                 ),
-                label: Text('Current Location'),
-                textColor: Theme.of(context).primaryColor,
-                onPressed: _getCurrentLocation,
               ),
-              FlatButton.icon(
-                icon: Icon(
-                  Icons.map,
-                  size: 17,
+              Expanded(
+                child: FlatButton.icon(
+                  icon: Icon(
+                    Icons.map,
+                    size: 17,
+                  ),
+                  label: Text('Select on Map'),
+                  textColor: Theme.of(context).primaryColor,
+                  onPressed: () {},
                 ),
-                label: Text('Current Location'),
-                textColor: Theme.of(context).primaryColor,
-                onPressed: () {},
               ),
             ],
           ),
